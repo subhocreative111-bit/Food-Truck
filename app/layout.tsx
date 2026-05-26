@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import SiteNav from '@/components/SiteNav';
 import Footer from '@/components/Footer';
+import Analytics from '@/components/analytics/Analytics';
+import ConsentBanner from '@/components/analytics/ConsentBanner';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -41,6 +44,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteNav />
         <main>{children}</main>
         <Footer />
+        <ConsentBanner />
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
       </body>
     </html>
   );
