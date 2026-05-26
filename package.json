@@ -6,6 +6,7 @@
     "build:data": "tsx scripts/build-data.ts",
     "build:search": "tsx scripts/build-search-index.ts",
     "import:old": "tsx scripts/import-old-html.ts",
+    "import:google": "tsx scripts/import-google-csv.ts",
     "dev": "next dev",
     "build": "node scripts/run-build.js",
     "build:node": "cross-env BUILD_NODE=1 node scripts/run-build.js",
