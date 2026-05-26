@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Mail, MessageCircle, AtSign } from 'lucide-react';
+import ContactForm from '@/components/forms/ContactForm';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -22,22 +23,9 @@ export default function ContactPage() {
           <Card icon={<AtSign />} title="Social" value="@foodtrucksusa" href="https://instagram.com/" />
         </div>
 
-        <form className="mt-16 grid gap-5 rounded-3xl border border-ink/10 bg-cream-50 p-8 md:p-12">
-          <div className="grid gap-5 md:grid-cols-2">
-            <Field label="Your name" name="name" required />
-            <Field label="Email" name="email" type="email" required />
-          </div>
-          <Field label="Subject" name="subject" required />
-          <label className="grid gap-2">
-            <span className="text-xs font-black uppercase tracking-[0.18em] text-ink/55">Message</span>
-            <textarea
-              rows={6}
-              className="rounded-2xl border border-ink/15 bg-cream px-4 py-3 text-base text-ink placeholder:text-ink/35 focus:border-ember focus:outline-none"
-              placeholder="What's on your mind?"
-            />
-          </label>
-          <button type="button" className="btn-primary mt-2 text-base">Send message</button>
-        </form>
+        <div className="mt-16">
+          <ContactForm />
+        </div>
       </div>
     </section>
   );
@@ -59,18 +47,3 @@ function Card({ icon, title, value, href }: { icon: React.ReactNode; title: stri
   );
 }
 
-function Field({ label, name, type = 'text', required }: { label: string; name: string; type?: string; required?: boolean }) {
-  return (
-    <label className="grid gap-2">
-      <span className="text-xs font-black uppercase tracking-[0.18em] text-ink/55">
-        {label}{required && <span className="ml-1 text-ember">*</span>}
-      </span>
-      <input
-        type={type}
-        name={name}
-        required={required}
-        className="rounded-full border border-ink/15 bg-cream px-5 py-3 text-base text-ink placeholder:text-ink/35 focus:border-ember focus:outline-none"
-      />
-    </label>
-  );
-}

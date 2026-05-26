@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { Menu, Search, X } from 'lucide-react';
+import UserMenu from './auth/UserMenu';
 
 const NAV_LINKS = [
   { href: '/states/california', label: 'States' },
@@ -75,6 +76,7 @@ export default function SiteNav() {
           >
             <Search className="h-4 w-4" />
           </Link>
+          <UserMenu />
           <Link href="/list-your-truck" className="btn-primary px-5 py-2.5 text-sm">
             List your truck
           </Link>

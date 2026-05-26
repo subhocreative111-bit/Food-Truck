@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Check, X, ArrowUpRight } from 'lucide-react';
+import ClaimForm from '@/components/forms/ClaimForm';
 
 export const metadata: Metadata = {
   title: 'List your truck',
@@ -69,41 +70,8 @@ export default function ListYourTruckPage() {
       </section>
 
       <section id="apply" className="px-6 pb-32 md:px-10">
-        <div className="mx-auto max-w-3xl rounded-3xl border border-ink/10 bg-cream-50 p-8 md:p-12">
-          <h2 className="text-4xl font-black tracking-tightest md:text-5xl">Apply for a listing.</h2>
-          <p className="mt-4 text-base text-ink/65 md:text-lg">
-            Tell us about your truck. We&apos;ll review and reach out within two business days.
-          </p>
-          <form className="mt-10 grid gap-5">
-            <Field label="Truck name" name="name" required />
-            <div className="grid gap-5 md:grid-cols-2">
-              <Field label="City" name="city" required />
-              <Field label="State" name="state" required />
-            </div>
-            <Field label="Primary cuisine" name="cuisine" required />
-            <Field label="Owner email" name="email" type="email" required />
-            <Field label="Instagram / website (optional)" name="link" />
-            <label className="grid gap-2">
-              <span className="text-xs font-black uppercase tracking-[0.18em] text-ink/55">Tell us about the truck</span>
-              <textarea
-                rows={5}
-                className="rounded-2xl border border-ink/15 bg-cream px-4 py-3 text-base text-ink placeholder:text-ink/35 focus:border-ember focus:outline-none"
-                placeholder="What's your signature dish, where do you usually park, anything you want us to know?"
-              />
-            </label>
-            <fieldset className="flex flex-col gap-3 sm:flex-row sm:gap-6">
-              <label className="flex items-center gap-2">
-                <input type="radio" name="plan" defaultChecked className="accent-ember" />
-                <span className="text-sm font-bold">Basic — free</span>
-              </label>
-              <label className="flex items-center gap-2">
-                <input type="radio" name="plan" className="accent-ember" />
-                <span className="text-sm font-bold">Featured — $29/mo</span>
-              </label>
-            </fieldset>
-            <button type="button" className="btn-primary mt-2 w-full text-base">Submit application</button>
-            <p className="text-center text-xs text-ink/45">No payment required to apply.</p>
-          </form>
+        <div className="mx-auto max-w-3xl">
+          <ClaimForm />
         </div>
       </section>
     </>
@@ -155,18 +123,3 @@ function PlanCard({ plan, accent }: { plan: typeof PLAN_FREE; accent?: boolean }
   );
 }
 
-function Field({ label, name, type = 'text', required }: { label: string; name: string; type?: string; required?: boolean }) {
-  return (
-    <label className="grid gap-2">
-      <span className="text-xs font-black uppercase tracking-[0.18em] text-ink/55">
-        {label}{required && <span className="ml-1 text-ember">*</span>}
-      </span>
-      <input
-        type={type}
-        name={name}
-        required={required}
-        className="rounded-full border border-ink/15 bg-cream px-5 py-3 text-base text-ink placeholder:text-ink/35 focus:border-ember focus:outline-none"
-      />
-    </label>
-  );
-}
