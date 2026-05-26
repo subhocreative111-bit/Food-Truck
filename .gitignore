@@ -6,8 +6,10 @@ node_modules/
 out/
 *.tsbuildinfo
 
-# Generated data (regenerable via npm scripts)
-data/trucks.json
+# Generated data
+# trucks.json is committed (44 MB) so fresh clones run without the legacy
+# HTML import files. Regenerate locally with `npm run import:old` if needed.
+# public/search-index.json is regenerated from trucks.json by `npm run build:search`.
 public/search-index.json
 
 # Environment
