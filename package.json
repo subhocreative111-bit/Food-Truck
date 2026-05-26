@@ -7,8 +7,9 @@
     "build:search": "tsx scripts/build-search-index.ts",
     "import:old": "tsx scripts/import-old-html.ts",
     "dev": "next dev",
-    "build": "npm run build:data && npm run build:search && next build",
-    "build:node": "cross-env BUILD_NODE=1 npm run build",
+    "build": "node scripts/run-build.js",
+    "build:node": "cross-env BUILD_NODE=1 node scripts/run-build.js",
+    "vercel-build": "node scripts/run-build.js",
     "start": "node server.js",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
