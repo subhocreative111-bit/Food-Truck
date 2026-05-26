@@ -25,7 +25,8 @@ export const metadata: Metadata = {
     locale: 'en_US',
   },
   twitter: { card: 'summary_large_image' },
-  icons: { icon: '/favicon.ico' },
+  // Icons are auto-discovered from app/icon.svg + app/apple-icon.png — no
+  // explicit `icons` override here (an override would suppress auto-detection).
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
