@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Cookie } from 'lucide-react';
-import { CONSENT_KEY } from '@/lib/analytics-config';
+import { CONSENT_KEY, GA_ENABLED, ADSENSE_ENABLED } from '@/lib/analytics-config';
 
 /**
  * Bottom-pinned cookie/tracking consent banner. Only renders when the
@@ -15,11 +15,17 @@ export default function ConsentBanner() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    // If both integrations are disabled, there's nothing to consent to.
+    if (!GA_ENABLED && !ADSENSE_ENABLED) return;
     const v = window.localStorage.getItem(CONSENT_KEY);
     if (!v) setVisible(true);
   }, []);
 
   if (!visible) return null;
+  // Compose the banner copy from what's actually enabled
+  const services = [GA_ENABLED && 'Google Analytics', ADSENSE_ENABLED && 'AdSense']
+    .filter(Boolean)
+    .join(' and ');
 
   const decide = (value: 'granted' | 'denied') => {
     window.localStorage.setItem(CONSENT_KEY, value);
@@ -41,8 +47,8 @@ export default function ConsentBanner() {
           </span>
           <p className="text-sm leading-relaxed text-ink/80">
             <strong className="font-black">Cookies, plain & simple.</strong>{' '}
-            We use Google Analytics and AdSense to understand site usage and pay
-            for hosting. Pick one — your choice is remembered.
+            We use {services} to understand site usage{ADSENSE_ENABLED ? ' and pay for hosting' : ''}.
+            Pick one — your choice is remembered.
           </p>
         </div>
         <div className="flex w-full shrink-0 gap-2 md:w-auto">

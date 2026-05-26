@@ -6,6 +6,8 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import {
   GA_MEASUREMENT_ID,
   ADSENSE_CLIENT,
+  GA_ENABLED,
+  ADSENSE_ENABLED,
   CONSENT_KEY,
   type ConsentValue,
 } from '@/lib/analytics-config';
@@ -54,39 +56,44 @@ export default function Analytics() {
 
   // Track route changes (App Router doesn't auto-fire page_view on navigation)
   useEffect(() => {
-    if (consent !== 'granted' || !window.gtag) return;
+    if (consent !== 'granted' || !GA_ENABLED || !window.gtag) return;
     const url = pathname + (search?.toString() ? `?${search.toString()}` : '');
-    window.gtag('config', GA_MEASUREMENT_ID, { page_path: url });
+    window.gtag('config', GA_MEASUREMENT_ID!, { page_path: url });
   }, [pathname, search, consent]);
 
   if (consent !== 'granted') return null;
+  if (!GA_ENABLED && !ADSENSE_ENABLED) return null;
 
   return (
     <>
-      {/* Google Analytics 4 */}
-      <Script
-        id="ga4-loader"
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        strategy="afterInteractive"
-      />
-      <Script id="ga4-init" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', '${GA_MEASUREMENT_ID}', { anonymize_ip: true });
-        `}
-      </Script>
+      {GA_ENABLED && (
+        <>
+          <Script
+            id="ga4-loader"
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="ga4-init" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              window.gtag = gtag;
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}', { anonymize_ip: true });
+            `}
+          </Script>
+        </>
+      )}
 
-      {/* Google AdSense — auto-ads enabled, no per-slot markup required */}
-      <Script
-        id="adsense-loader"
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
-        crossOrigin="anonymous"
-        strategy="afterInteractive"
-        async
-      />
+      {ADSENSE_ENABLED && (
+        <Script
+          id="adsense-loader"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+          async
+        />
+      )}
     </>
   );
 }
