@@ -121,9 +121,35 @@ data/
 
 ## Deploy to Hostinger
 
-1. `npm run build`
-2. Open Hostinger File Manager → `public_html/`
-3. Upload everything in the `out/` folder (preserve folder structure)
-4. Drop the included `.htaccess` (if you want clean URLs) or rely on the `trailingSlash: true` config which produces `index.html` files inside each route folder
+Two supported modes:
 
-Re-uploading is a full overwrite — there's no server runtime to manage.
+### A. Node server (Hostinger Business / Cloud / VPS — default)
+
+```bash
+npm install
+npm run build
+npm start         # node server.js — binds 0.0.0.0:$PORT
+```
+
+Hostinger Business+ runs Node apps via hPanel → **Advanced → Node.js**:
+- Application root: the folder you uploaded the repo to (e.g. `domains/foodtrucksnearmeusa.com/public_html`)
+- Application URL: your domain
+- Application startup file: `server.js`
+- Node.js version: 18 or newer
+- Hostinger sets `PORT` and proxies to it automatically
+
+Upload flow:
+1. Clone the repo (via SSH) or upload a zip
+2. In hPanel Node.js section, click **Run npm install**
+3. SSH or terminal: `npm run build` (or wire as a "Run npm scripts" command)
+4. Click **Start application**
+
+### B. Static export (any host)
+
+```bash
+npm run build:static    # writes out/, ~760 MB
+```
+
+Upload the contents of `out/` to `public_html/`. The included `.htaccess` handles trailing-slash routing.
+
+This mode disables ISR, API routes, and the image optimizer — the trade for serving from any plain web host.

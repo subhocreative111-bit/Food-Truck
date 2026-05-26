@@ -8,7 +8,8 @@
     "import:old": "tsx scripts/import-old-html.ts",
     "dev": "next dev",
     "build": "npm run build:data && npm run build:search && next build",
-    "start": "next start",
+    "build:static": "cross-env BUILD_STATIC=1 npm run build",
+    "start": "node server.js",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },
@@ -26,6 +27,7 @@
     "@types/react-dom": "^18.3.1",
     "@types/react-simple-maps": "^3.0.6",
     "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.18",
     "postcss": "^8.4.49",
@@ -33,5 +35,8 @@
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "xlsx": "^0.18.5"
+  },
+  "engines": {
+    "node": ">=18.17"
   }
 }
