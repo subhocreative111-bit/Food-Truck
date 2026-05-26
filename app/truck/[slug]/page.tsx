@@ -7,6 +7,7 @@ import BusinessHours from '@/components/BusinessHours';
 import RatingDots from '@/components/RatingDots';
 import TruckCard from '@/components/TruckCard';
 import SectionHeader from '@/components/SectionHeader';
+import OverrideOverlay from '@/components/truck/OverrideOverlay';
 import { getTrucksWithDetailPages, getTruckBySlug, getTrucksByCity } from '@/lib/data';
 import { cuisineSlug } from '@/lib/slug';
 
@@ -72,6 +73,7 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <OverrideOverlay truckSlug={t.slug} />
 
       <section className="px-6 pb-10 pt-8 md:px-10 md:pt-12">
         <div className="mx-auto max-w-7xl">
@@ -82,7 +84,7 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
             <span>/</span>
             <Link href={`/states/${t.stateSlug}/${t.citySlug}`} className="hover:text-ember">{t.city}</Link>
             <span>/</span>
-            <span className="truncate text-ink">{t.name}</span>
+            <span data-override="name" className="truncate text-ink">{t.name}</span>
           </nav>
 
           <div className="mt-6">
@@ -102,7 +104,7 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
                   <span className="tabular chip">{'$'.repeat(t.priceLevel)}</span>
                 )}
               </div>
-              <h1 className="mt-5 text-6xl font-black leading-[0.95] tracking-tightest md:text-7xl lg:text-8xl">
+              <h1 data-override="name" className="mt-5 text-6xl font-black leading-[0.95] tracking-tightest md:text-7xl lg:text-8xl">
                 {t.name}
               </h1>
               <div className="mt-5 flex flex-wrap items-center gap-5">
@@ -113,14 +115,12 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
                 </span>
               </div>
 
-              {t.description && (
-                <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink/75">{t.description}</p>
-              )}
+              <p data-override="description" className={`mt-8 max-w-2xl text-lg leading-relaxed text-ink/75 ${t.description ? '' : 'hidden'}`}>{t.description ?? ''}</p>
 
               <div className="mt-12 grid gap-3 sm:grid-cols-2">
                 <InfoRow icon={<MapPin className="h-4 w-4" />} label="Address" value={t.address} />
-                {t.phone && <InfoRow icon={<Phone className="h-4 w-4" />} label="Phone" value={t.phone} href={`tel:${t.phone}`} />}
-                {t.website && <InfoRow icon={<Globe className="h-4 w-4" />} label="Website" value={t.website.replace(/^https?:\/\//, '')} href={t.website} />}
+                <InfoRow icon={<Phone className="h-4 w-4" />} label="Phone" value={t.phone ?? '—'} href={t.phone ? `tel:${t.phone}` : undefined} dataOverride="phone" />
+                <InfoRow icon={<Globe className="h-4 w-4" />} label="Website" value={t.website ? t.website.replace(/^https?:\/\//, '') : '—'} href={t.website} dataOverride="website" />
                 <InfoRow icon={<Tag className="h-4 w-4" />} label="Cuisine" value={t.cuisine.join(', ')} />
               </div>
 
@@ -175,7 +175,16 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
   );
 }
 
-function InfoRow({ icon, label, value, href }: { icon: React.ReactNode; label: string; value: string; href?: string }) {
+function InfoRow({
+  icon, label, value, href, dataOverride,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  href?: string;
+  /** Set "phone" or "website" to enable owner override at runtime. */
+  dataOverride?: 'phone' | 'website';
+}) {
   const inner = (
     <>
       <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ember/10 text-ember">
@@ -183,10 +192,25 @@ function InfoRow({ icon, label, value, href }: { icon: React.ReactNode; label: s
       </span>
       <span className="flex min-w-0 flex-col">
         <span className="text-xs font-black uppercase tracking-[0.18em] text-ink/40">{label}</span>
-        <span className="truncate font-bold text-ink">{value}</span>
+        <span data-override={dataOverride} className="truncate font-bold text-ink">{value}</span>
       </span>
     </>
   );
+  // Override-friendly link variant — empty href still gets the data attr so JS can patch
+  if (dataOverride === 'phone' || dataOverride === 'website') {
+    const linkAttr = dataOverride === 'phone' ? 'phone-link' : 'website-link';
+    return (
+      <a
+        href={href || '#'}
+        data-override={linkAttr}
+        className="flex items-center gap-3 rounded-2xl border border-ink/10 p-4 transition-colors hover:border-ember hover:bg-cream-50"
+        target={href && href.startsWith('http') ? '_blank' : undefined}
+        rel="noopener noreferrer"
+      >
+        {inner}
+      </a>
+    );
+  }
   return href ? (
     <a href={href} className="flex items-center gap-3 rounded-2xl border border-ink/10 p-4 transition-colors hover:border-ember hover:bg-cream-50" target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
       {inner}

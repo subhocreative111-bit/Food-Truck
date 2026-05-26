@@ -7,6 +7,7 @@ import { useSession } from '@/lib/supabase/hooks';
 import { getSupabase, supabaseConfigured } from '@/lib/supabase/client';
 import AuthForm from '@/components/auth/AuthForm';
 import PhotoUploader from '@/components/owner/PhotoUploader';
+import EditListingForm from '@/components/owner/EditListingForm';
 import type { Claim } from '@/lib/supabase/types';
 
 export default function OwnerDashboard() {
@@ -156,11 +157,13 @@ export default function OwnerDashboard() {
                         View live <ArrowUpRight className="h-3.5 w-3.5" />
                       </Link>
                     </div>
-                    <div className="mt-6 rounded-2xl border border-dashed border-ink/15 p-6 text-sm text-ink/55">
-                      Listing edit form (hours, description, contact info) ships next — for now,
-                      email any updates to <a href="mailto:hello@foodtrucksnearmeusa.com" className="font-bold text-ember">hello@foodtrucksnearmeusa.com</a>.
-                    </div>
                   </div>
+
+                  <EditListingForm
+                    truckSlug={activeSlug}
+                    truckName={claims.find((c) => c.truck_slug === activeSlug)?.truck_name ?? activeSlug}
+                    ownerId={user.id}
+                  />
 
                   <PhotoUploader truckSlug={activeSlug} ownerId={user.id} />
                 </div>
