@@ -8,7 +8,7 @@
     "import:old": "tsx scripts/import-old-html.ts",
     "dev": "next dev",
     "build": "npm run build:data && npm run build:search && next build",
-    "build:static": "cross-env BUILD_STATIC=1 npm run build",
+    "build:node": "cross-env BUILD_NODE=1 npm run build",
     "start": "node server.js",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"

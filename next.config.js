@@ -1,27 +1,27 @@
 const { PHASE_PRODUCTION_BUILD } = require('next/constants');
 
 /**
- * Two deployment modes:
- *   - Node server (default) — runs `npm start` on Hostinger Node hosting.
- *     Unlocks ISR, API routes, real form submissions, on-demand rendering.
- *   - Static export — set BUILD_STATIC=1 before `npm run build` to produce
- *     out/ for plain static hosting. Use this if you ever drop back to a
- *     static-only host.
+ * Two supported deployment modes:
+ *   - Static export (default) — produces out/ for Hostinger's GitHub-integrated
+ *     "Deployment" feature, Netlify, Vercel static, GitHub Pages, etc.
+ *     `npm run build` writes out/ via Next's static export.
+ *   - Node server — set BUILD_NODE=1 to skip the static export and build for
+ *     `npm start` (node server.js). Use this only if you're running the app
+ *     on Hostinger's Node.js panel (not the Deployment feature) or a VPS.
  *
  * @type {(phase: string) => import('next').NextConfig}
  */
 module.exports = (phase) => {
   const isProdBuild = phase === PHASE_PRODUCTION_BUILD;
-  const wantStatic = process.env.BUILD_STATIC === '1';
+  const wantNode = process.env.BUILD_NODE === '1';
+  const wantStatic = isProdBuild && !wantNode;
 
   return {
-    // Only emit the static out/ when explicitly asked for AND during a real build.
-    ...(isProdBuild && wantStatic ? { output: 'export' } : {}),
+    // Default: emit out/ for static hosting.
+    ...(wantStatic ? { output: 'export' } : {}),
 
-    // Static export can't use the Next image optimizer, so unoptimize then.
-    // In Node mode we let Next handle resizing for us.
     images: wantStatic
-      ? { unoptimized: true }
+      ? { unoptimized: true } // static export can't run Next's image optimizer
       : {
           remotePatterns: [
             { protocol: 'https', hostname: 'images.unsplash.com' },
