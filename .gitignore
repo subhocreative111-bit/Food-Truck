@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+out/
+*.tsbuildinfo
+
+# Generated data (regenerable via npm scripts)
+data/trucks.json
+public/search-index.json
+
+# Environment
+.env*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,144 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { ArrowDown } from 'lucide-react';
+import SearchBar from './SearchBar';
+
+interface Props {
+  cities: { name: string; state: string; stateSlug: string; slug: string }[];
+  cuisines: { cuisine: string; slug: string }[];
+  popularCuisines: { cuisine: string; slug: string }[];
+  totalTrucks: number;
+  totalStates: number;
+}
+
+export default function Hero({ cities, cuisines, popularCuisines, totalTrucks, totalStates }: Props) {
+  return (
+    <section className="grain relative isolate overflow-hidden px-6 pb-20 pt-12 md:px-10 md:pb-32 md:pt-20">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.35fr_1fr] lg:items-end">
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.22em] text-ember"
+          >
+            <span className="inline-block h-px w-10 bg-ember" />
+            America's curated mobile-eats directory
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            className="mt-6 break-words text-[clamp(3rem,12vw,8.5rem)] font-black leading-[0.92] tracking-tightest text-ink"
+          >
+            Eat where the
+            <br />
+            <span className="relative inline-block">
+              <span className="relative z-10 italic text-ember">locals</span>
+              <span className="absolute inset-x-0 bottom-2 z-0 h-3 bg-saffron/70 md:h-5" aria-hidden />
+            </span>{' '}
+            do.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="mt-7 max-w-xl text-lg leading-relaxed text-ink/70 md:text-xl"
+          >
+            A hand-curated directory of <strong className="font-bold text-ink">{totalTrucks.toLocaleString()}</strong> independent
+            food trucks, taco stands, and roadside eateries across all{' '}
+            <strong className="font-bold text-ink">{totalStates}</strong> states.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.55 }}
+            className="mt-10"
+          >
+            <SearchBar
+              cities={cities}
+              cuisines={cuisines}
+              placeholder="Try “Austin tacos” or “Brooklyn BBQ”"
+            />
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-ink/50">
+              <span className="font-bold uppercase tracking-wider">Popular:</span>
+              {popularCuisines.slice(0, 6).map((c) => (
+                <a
+                  key={c.slug}
+                  href={`/cuisines/${c.slug}/`}
+                  className="rounded-full border border-ink/12 px-3 py-1 font-bold text-ink/70 transition-colors hover:border-ember hover:text-ember"
+                >
+                  {c.cuisine}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Right: stacked stats + image */}
+        <div className="relative">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+            className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-ink/10 bg-cream-100"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=1000&q=75&auto=format&fit=crop"
+              alt="Customers gathered at a food truck at sunset"
+              fetchPriority="high"
+              decoding="async"
+              width={800}
+              height={1000}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ animation: 'rise 2s ease-out both' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
+              <div>
+                <div className="tabular text-5xl font-black leading-none text-cream md:text-6xl">
+                  {totalTrucks.toLocaleString()}
+                </div>
+                <div className="mt-1 text-xs font-black uppercase tracking-[0.18em] text-cream/85">
+                  Trucks indexed
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="tabular text-5xl font-black leading-none text-cream md:text-6xl">{totalStates}</div>
+                <div className="mt-1 text-xs font-black uppercase tracking-[0.18em] text-cream/85">States</div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="absolute -left-6 top-10 hidden rotate-[-6deg] rounded-2xl border border-ink/10 bg-cream px-4 py-3 shadow-[0_20px_40px_-20px_rgba(26,22,20,0.3)] md:flex"
+          >
+            <div className="flex items-center gap-3">
+              <span className="featured-pill">Featured</span>
+              <span className="text-sm font-bold">Open now near you</span>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+        className="mx-auto mt-20 hidden max-w-7xl items-center justify-between text-xs font-black uppercase tracking-[0.22em] text-ink/45 md:flex"
+      >
+        <span>Scroll to explore</span>
+        <ArrowDown className="h-4 w-4 animate-bounce" />
+        <span>Eat well · est. 2026</span>
+      </motion.div>
+    </section>
+  );
+}

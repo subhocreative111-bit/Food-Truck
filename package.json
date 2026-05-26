@@ -1,0 +1,37 @@
+{
+  "name": "foodtrucksnearmeusa",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:data": "tsx scripts/build-data.ts",
+    "build:search": "tsx scripts/build-search-index.ts",
+    "import:old": "tsx scripts/import-old-html.ts",
+    "dev": "next dev",
+    "build": "npm run build:data && npm run build:search && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "framer-motion": "^11.11.17",
+    "lucide-react": "^0.460.0",
+    "next": "14.2.18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-simple-maps": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/react-simple-maps": "^3.0.6",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.18",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.14",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "xlsx": "^0.18.5"
+  }
+}
