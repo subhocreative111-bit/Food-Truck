@@ -16,6 +16,7 @@ import * as XLSX from 'xlsx';
 import { US_STATES } from '../lib/states';
 import { nearestCity, distanceKm, CITY_CENTROIDS } from '../lib/city-centroids';
 import { slugify } from '../lib/slug';
+import { matchChain } from '../lib/chain-blocklist';
 import type { Truck, Cuisine } from '../lib/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -52,6 +53,9 @@ const NON_TRUCK_CATEGORIES = new Set([
 ]);
 
 function isFoodTruck(name: string, category: string): boolean {
+  // Brick-and-mortar chains always lose — even if Outscraper tags them
+  // "Mobile caterer" (some do). Single source of truth in chain-blocklist.ts.
+  if (matchChain(name)) return false;
   if (NON_TRUCK_CATEGORIES.has(category)) return false;
   if (/Mobile caterer/i.test(category)) return true;
   if (/Food producer/i.test(category)) return true;

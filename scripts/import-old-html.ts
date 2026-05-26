@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { US_STATES, STATE_BY_NAME } from '../lib/states';
 import { nearestCity } from '../lib/city-centroids';
 import { slugify } from '../lib/slug';
+import { matchChain } from '../lib/chain-blocklist';
 import type { Truck, Cuisine } from '../lib/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -176,6 +177,8 @@ function parseFile(file: string, stateName: string): Truck[] {
   while ((m = CARD_RE.exec(html)) !== null) {
     const cuisine = normalizeCuisine(m[1]);
     const name = decodeEntities(m[2]).trim();
+    // Skip brick-and-mortar chain restaurants — they pollute the directory
+    if (matchChain(name)) continue;
     const query = decodeURIComponent(m[3]); // "Truck%20Name%2034.0%2C-118.0"
     // The query is "NAME LAT,LNG" after decoding; LAT,LNG is always the last token after the last space
     const lastSpace = query.lastIndexOf(' ');
