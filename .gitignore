@@ -25,3 +25,6 @@ npm-debug.log*
 Thumbs.db
 .idea/
 .vscode/
+
+# Claude Code per-machine tool permissions (track .claude/launch.json only)
+.claude/settings.local.json
