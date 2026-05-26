@@ -52,12 +52,12 @@ export default function SiteNav() {
           </span>
         </Link>
 
-        <ul className="hidden items-center gap-7 md:flex">
+        <ul className="hidden items-center gap-5 lg:gap-7 md:flex">
           {NAV_LINKS.map((l) => (
             <li key={l.href}>
               <Link
                 href={l.href}
-                className="relative text-sm font-bold tracking-wide text-ink/80 transition-colors hover:text-ink
+                className="relative whitespace-nowrap text-sm font-bold tracking-wide text-ink/80 transition-colors hover:text-ink
                            after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-ember
                            after:transition-all after:duration-500 after:ease-editorial hover:after:w-full"
               >
@@ -67,17 +67,17 @@ export default function SiteNav() {
           ))}
         </ul>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-2 md:flex">
           <Link
             href="/search"
             aria-label="Search"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/15
                        text-ink/70 transition-colors hover:border-ink hover:text-ink"
           >
             <Search className="h-4 w-4" />
           </Link>
           <UserMenu />
-          <Link href="/list-your-truck" className="btn-primary px-5 py-2.5 text-sm">
+          <Link href="/list-your-truck" className="btn-primary whitespace-nowrap px-4 py-2 text-sm">
             List your truck
           </Link>
         </div>
