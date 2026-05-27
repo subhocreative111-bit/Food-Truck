@@ -5,6 +5,7 @@ import { getAllCuisines } from '@/lib/data';
 export const metadata: Metadata = {
   title: 'Search food trucks',
   description: 'Search by truck name, city, state or cuisine.',
+  alternates: { canonical: '/search' },
 };
 
 export default function SearchPage() {

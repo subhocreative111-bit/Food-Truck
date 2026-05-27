@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Field notes',
   description: 'Stories and guides from the road.',
+  alternates: { canonical: '/blog' },
 };
 
 export default function BlogPage() {

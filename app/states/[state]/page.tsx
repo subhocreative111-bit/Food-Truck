@@ -18,9 +18,12 @@ export function generateMetadata({ params }: { params: { state: string } }): Met
   return {
     title: `Food Trucks in ${s.name} — Top ${s.count} Rated`,
     description: `Discover ${s.count} hand-picked food trucks across ${s.name}. Filter by cuisine, rating, or city. Updated weekly.`,
+    alternates: { canonical: `/states/${s.slug}` },
     openGraph: {
       title: `Food Trucks in ${s.name}`,
       description: `${s.count} curated food trucks across ${s.name}.`,
+      url: `/states/${s.slug}`,
+      type: 'website',
     },
   };
 }

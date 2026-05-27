@@ -17,6 +17,13 @@ export function generateMetadata({ params }: { params: { type: string } }): Meta
   return {
     title: `${c.cuisine} Food Trucks — ${c.count} Across the US`,
     description: `Browse ${c.count} ${c.cuisine.toLowerCase()} food trucks across all 50 states.`,
+    alternates: { canonical: `/cuisines/${c.slug}` },
+    openGraph: {
+      title: `${c.cuisine} Food Trucks`,
+      description: `${c.count} ${c.cuisine.toLowerCase()} food trucks across the US.`,
+      url: `/cuisines/${c.slug}`,
+      type: 'website',
+    },
   };
 }
 

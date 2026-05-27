@@ -29,10 +29,13 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     title: `${t.name} — ${cuisine} in ${t.city}, ${t.state}`,
     description:
       t.description ?? `${t.name} is a ${cuisine.toLowerCase()} food truck in ${t.city}, ${t.state}. Hours, address, photos and reviews.`,
+    alternates: { canonical: `/truck/${t.slug}` },
     openGraph: {
       title: t.name,
       description: `${cuisine} · ${t.city}, ${t.state}`,
       images: t.photos.slice(0, 1),
+      url: `/truck/${t.slug}`,
+      type: 'website',
     },
   };
 }

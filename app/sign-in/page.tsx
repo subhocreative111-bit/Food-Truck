@@ -4,6 +4,7 @@ import AuthForm from '@/components/auth/AuthForm';
 export const metadata: Metadata = {
   title: 'Owner sign in',
   description: 'Sign in to claim or edit your food truck listing.',
+  alternates: { canonical: '/sign-in' },
 };
 
 export default function SignInPage() {

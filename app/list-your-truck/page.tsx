@@ -6,6 +6,7 @@ import ClaimForm from '@/components/forms/ClaimForm';
 export const metadata: Metadata = {
   title: 'List your truck',
   description: 'Get your food truck listed on FoodTrucksNearMeUSA. Free basic listing or upgrade to Featured for priority placement.',
+  alternates: { canonical: '/list-your-truck' },
 };
 
 const PLAN_FREE = {

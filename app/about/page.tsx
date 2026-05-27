@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About',
   description: 'Why FoodTrucksNearMeUSA exists, and how we keep listings honest.',
+  alternates: { canonical: '/about' },
 };
 
 export default function AboutPage() {

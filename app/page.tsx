@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Hero from '@/components/Hero';
 import TruckCard from '@/components/TruckCard';
@@ -16,6 +17,11 @@ import {
   getRecentTrucks,
 } from '@/lib/data';
 import { US_STATES } from '@/lib/states';
+
+export const metadata: Metadata = {
+  // Title and description come from the root layout's defaults.
+  alternates: { canonical: '/' },
+};
 
 export default function HomePage() {
   const cities = getAllCities();

@@ -2,6 +2,18 @@
 
 RewriteEngine On
 
+# Canonical hostname — 301 redirect www → non-www.
+# Critical for SEO: without this, Google and Ahrefs see two copies of every
+# page (www.foodtrucksnearmeusa.com/X and foodtrucksnearmeusa.com/X), causing
+# duplicate-content warnings and diluted rankings.
+RewriteCond %{HTTP_HOST} ^www\.foodtrucksnearmeusa\.com$ [NC]
+RewriteRule ^(.*)$ https://foodtrucksnearmeusa.com/$1 [R=301,L]
+
+# Force HTTPS (belt-and-suspenders — Hostinger usually handles this at the
+# load balancer, but make sure it's enforced if a plain-HTTP request slips in)
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
 # Strip trailing slashes on file requests (Next exports trailing slashes on routes)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
