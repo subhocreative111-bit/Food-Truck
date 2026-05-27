@@ -67,6 +67,9 @@ export interface CitySummary {
   stateSlug: string;
   count: number;
   topRating: number;
+  /** Cover photo for city cards. Prefers a real Google CDN URL from the
+   *  highest-ranked truck in that city; undefined when no real photo exists. */
+  coverPhoto?: string;
 }
 
 export interface StateSummary {

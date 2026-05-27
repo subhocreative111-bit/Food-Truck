@@ -1,22 +1,23 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { MapPin, Phone, Globe, Tag, ShieldCheck } from 'lucide-react';
+import { MapPin, Phone, Globe, Tag, ShieldCheck, ExternalLink, Info } from 'lucide-react';
 import PhotoGallery from '@/components/PhotoGallery';
+import CuisineIconArt from '@/components/CuisineIconArt';
 import BusinessHours from '@/components/BusinessHours';
 import RatingDots from '@/components/RatingDots';
 import TruckCard from '@/components/TruckCard';
 import SectionHeader from '@/components/SectionHeader';
 import OverrideOverlay from '@/components/truck/OverrideOverlay';
-import { getTrucksWithDetailPages, getTruckBySlug, getTrucksByCity } from '@/lib/data';
+import { getTrucksWithDetailPages, getTruckBySlug, getTrucksByCity, hasDetailPage, googleMapsUrl } from '@/lib/data';
 import { cuisineSlug } from '@/lib/slug';
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  // Detail pages are generated only for trucks with rich data (claimed/featured
-  // listings, or anything with phone/website/hours). The 93k sparse imports
-  // surface on listing pages with a direct Google-Maps deep-link instead.
+  // Every truck gets a static page. Sparse imports render with a "limited
+  // info" callout that links out to Google Maps for fuller detail; rich
+  // listings render the full layout with hours, photos, etc.
   return getTrucksWithDetailPages().map((t) => ({ slug: t.slug }));
 }
 
@@ -41,6 +42,9 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
   if (!t) notFound();
 
   const related = getTrucksByCity(t.stateSlug, t.citySlug).filter((x) => x.slug !== t.slug).slice(0, 4);
+  const isSparse = !hasDetailPage(t);
+  const mapsHref = googleMapsUrl(t);
+  const hasPhotos = t.photos && t.photos.length > 0;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -88,7 +92,13 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
           </nav>
 
           <div className="mt-6">
-            <PhotoGallery photos={t.photos} name={t.name} />
+            {hasPhotos ? (
+              <PhotoGallery photos={t.photos} name={t.name} fallbackCuisine={t.cuisine[0]} />
+            ) : (
+              <div className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-ink/8 bg-cream-100 md:aspect-[21/9]">
+                <CuisineIconArt cuisine={t.cuisine[0]} name={t.name} />
+              </div>
+            )}
           </div>
 
           <div className="mt-10 grid gap-12 lg:grid-cols-[1.5fr_1fr]">
@@ -116,6 +126,40 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
               </div>
 
               <p data-override="description" className={`mt-8 max-w-2xl text-lg leading-relaxed text-ink/75 ${t.description ? '' : 'hidden'}`}>{t.description ?? ''}</p>
+
+              {isSparse && (
+                <div className="mt-8 flex flex-col gap-4 rounded-3xl border border-ember/30 bg-ember/5 p-6 md:flex-row md:items-center md:justify-between">
+                  <div className="flex gap-3">
+                    <Info className="mt-0.5 h-5 w-5 shrink-0 text-ember" />
+                    <div>
+                      <h2 className="text-sm font-black uppercase tracking-[0.18em] text-ink">
+                        Limited info on this listing
+                      </h2>
+                      <p className="mt-1 text-sm text-ink/70">
+                        We don&apos;t yet have hours, phone, or photos for this truck. Use Google Maps for
+                        the latest location and reviews — or claim this listing if it&apos;s yours.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <a
+                      href={mapsHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-primary inline-flex items-center gap-2 whitespace-nowrap text-sm"
+                    >
+                      View on Google Maps
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                    <Link
+                      href="/list-your-truck"
+                      className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-ink/20 px-5 py-2.5 text-sm font-bold text-ink transition-colors hover:border-ember hover:text-ember"
+                    >
+                      Claim this listing
+                    </Link>
+                  </div>
+                </div>
+              )}
 
               <div className="mt-12 grid gap-3 sm:grid-cols-2">
                 <InfoRow icon={<MapPin className="h-4 w-4" />} label="Address" value={t.address} />

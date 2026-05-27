@@ -29,6 +29,7 @@ import { fileURLToPath } from 'node:url';
 
 import { US_STATES, STATE_BY_NAME, STATE_BY_ABBR } from '../lib/states';
 import { slugify } from '../lib/slug';
+import { importOutscraperTrucks } from '../lib/outscraper-import';
 import type { Truck, Cuisine, Hours } from '../lib/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -359,16 +360,15 @@ function seed(): Truck[] {
 function main() {
   if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
 
-  // If trucks.json already has data (e.g. from `npm run import:old`), leave it
-  // alone unless Excel files exist that should be re-ingested.
-  const xlsxPresent = existsSync(DATA_DIR) &&
-    require('node:fs').readdirSync(DATA_DIR).some((f: string) => /\.(xlsx|xls)$/i.test(f));
-
-  if (existsSync(OUT_FILE) && !xlsxPresent) {
+  // The committed trucks.json is the source of truth — it ships with the repo
+  // so Hostinger builds without needing the (gitignored) outscraper-merged.json
+  // or xlsx source files. Only regenerate when trucks.json is missing/empty
+  // (fresh clone before any data import).
+  if (existsSync(OUT_FILE)) {
     try {
       const existing = JSON.parse(readFileSync(OUT_FILE, 'utf8')) as unknown[];
       if (Array.isArray(existing) && existing.length > 0) {
-        console.log(`[build-data] trucks.json already populated (${existing.length} trucks) and no Excel files present — skipping regeneration.`);
+        console.log(`[build-data] trucks.json already populated (${existing.length} trucks) — skipping regeneration.`);
         return;
       }
     } catch {
@@ -376,9 +376,30 @@ function main() {
     }
   }
 
+  // Regeneration path (only runs when trucks.json is missing/corrupt):
+  // 1. Prefer outscraper-merged.json if available (production data source)
+  const outscraperResult = importOutscraperTrucks(DATA_DIR);
+  if (outscraperResult) {
+    const { trucks, stats } = outscraperResult;
+    console.log('[build-data] Importing from outscraper-merged.json');
+    console.log(`  raw rows:           ${stats.raw}`);
+    console.log(`  kept:               ${stats.kept}`);
+    console.log(`  dropped closed:     ${stats.droppedClosed}`);
+    console.log(`  dropped chains:     ${stats.droppedChain}`);
+    console.log(`  dropped industrial: ${stats.droppedCategory}`);
+    console.log(`  dropped no state:   ${stats.droppedNoState}`);
+    console.log(`  dropped no name:    ${stats.droppedNoName}`);
+    console.log(`  dropped duplicate:  ${stats.droppedDuplicate}`);
+    writeFileSync(OUT_FILE, JSON.stringify(trucks));
+    console.log(`[build-data] Wrote ${trucks.length} trucks → ${OUT_FILE}`);
+    return;
+  }
+
+  // 2. Fall back to any xlsx files in /data/
   let trucks = readExcelFiles();
   if (trucks.length === 0) {
-    console.log('[build-data] No Excel files found — generating seed dataset.');
+    // 3. Last resort: generate a seed dataset so fresh clones still build
+    console.log('[build-data] No data sources found — generating seed dataset.');
     trucks = seed();
   }
   writeFileSync(OUT_FILE, JSON.stringify(trucks));

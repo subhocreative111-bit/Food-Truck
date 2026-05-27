@@ -7,10 +7,17 @@ out/
 *.tsbuildinfo
 
 # Generated data
-# trucks.json is committed (44 MB) so fresh clones run without the legacy
-# HTML import files. Regenerate locally with `npm run import:old` if needed.
-# public/search-index.json is regenerated from trucks.json by `npm run build:search`.
+# trucks.json IS committed — it's the source of truth for production builds.
+# Hostinger reads it directly, skipping regeneration. Regenerate locally with
+# `npm run build:data` (uses outscraper-merged.json) or `npm run import:old`.
+# Source files (xlsx) and intermediates are gitignored — too big and only
+# needed for local re-import workflows.
 public/search-index.json
+data/outscraper-merged.json
+data/trucks.json.backup-seed
+data/*.xlsx
+data/*.xls
+data/*.csv
 
 # Environment
 .env*

@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { MapPin, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import RatingDots from './RatingDots';
 import CuisineIconArt from './CuisineIconArt';
-import { hasDetailPage, googleMapsUrl } from '@/lib/truck-helpers';
 import type { Truck } from '@/lib/types';
 
 interface Props {
@@ -17,10 +17,12 @@ interface Props {
 export default function TruckCard({ truck, variant = 'grid', index = 0 }: Props) {
   const aspect =
     variant === 'tall' ? 'aspect-[4/5]' : variant === 'list' ? 'aspect-[16/10]' : 'aspect-[5/4]';
-  const hasPhoto = truck.photos && truck.photos.length > 0;
-  const hasPage = hasDetailPage(truck);
-  const cardHref = hasPage ? `/truck/${truck.slug}` : googleMapsUrl(truck);
-  const externalProps = hasPage ? {} : { target: '_blank' as const, rel: 'noopener noreferrer' };
+  const [imgFailed, setImgFailed] = useState(false);
+  const hasPhoto = !imgFailed && truck.photos && truck.photos.length > 0;
+  // Every truck has a static detail page now. Sparse listings render with a
+  // "limited info" callout and a Google Maps link inside the page itself.
+  const cardHref = `/truck/${truck.slug}`;
+  const externalProps = {};
 
   return (
     <motion.article
@@ -45,6 +47,8 @@ export default function TruckCard({ truck, variant = 'grid', index = 0 }: Props)
               src={truck.photos[0]}
               alt={truck.name}
               loading="lazy"
+              referrerPolicy="no-referrer"
+              onError={() => setImgFailed(true)}
               className="zoom-img absolute inset-0 h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
@@ -79,7 +83,7 @@ export default function TruckCard({ truck, variant = 'grid', index = 0 }: Props)
           <Link
             href={cardHref}
             {...externalProps}
-            aria-label={hasPage ? `Open ${truck.name}` : `Find ${truck.name} on Google Maps`}
+            aria-label={`Open ${truck.name}`}
             className="mt-1 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-ink/15
                        text-ink/60 transition-all duration-300 ease-editorial
                        group-hover:border-ember group-hover:bg-ember group-hover:text-cream group-hover:rotate-12"

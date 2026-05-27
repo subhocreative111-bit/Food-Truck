@@ -57,6 +57,31 @@ export function rankTrucks(list: Truck[]): Truck[] {
 }
 
 /**
+ * Pick a representative cover photo for a city: highest-ranked truck whose
+ * first photo is a real Google Maps CDN URL. Falls back to any non-Unsplash
+ * photo, then any photo at all, then undefined (CityCard renders its own
+ * fallback in that case).
+ */
+function pickCityCover(trucks: Truck[]): string | undefined {
+  const ranked = rankTrucks(trucks);
+  // Priority 1: real Google Maps CDN photos (lh3.googleusercontent.com)
+  for (const t of ranked) {
+    const p = t.photos?.[0];
+    if (p && /^https?:\/\/lh3\.googleusercontent\.com\//.test(p)) return p;
+  }
+  // Priority 2: any photo that isn't a stock Unsplash image
+  for (const t of ranked) {
+    const p = t.photos?.[0];
+    if (p && !p.includes('images.unsplash.com')) return p;
+  }
+  // Priority 3: any photo at all
+  for (const t of ranked) {
+    if (t.photos?.[0]) return t.photos[0];
+  }
+  return undefined;
+}
+
+/**
  * Page-size cap for listing pages. Keeps HTML under ~500KB on the biggest states
  * (CA was 53 MB unconstrained). Users browse deeper via city / cuisine pages.
  */
@@ -86,6 +111,7 @@ export function getAllStates(): StateSummary[] {
         existing.count += 1;
         if (t.rating > existing.topRating) existing.topRating = t.rating;
       } else {
+        const cityTrucks = trucks.filter((x) => x.citySlug === ck);
         cityMap.set(ck, {
           name: t.city,
           slug: t.citySlug,
@@ -93,6 +119,7 @@ export function getAllStates(): StateSummary[] {
           stateSlug: s.slug,
           count: 1,
           topRating: t.rating,
+          coverPhoto: pickCityCover(cityTrucks),
         });
       }
     }
@@ -132,6 +159,7 @@ export function getAllCities(): CitySummary[] {
       stateSlug: t.stateSlug,
       count: trucks.length,
       topRating: trucks.reduce((m, x) => Math.max(m, x.rating), 0),
+      coverPhoto: pickCityCover(trucks),
     });
   }
   return out;
@@ -148,6 +176,7 @@ export function getCity(stateSlug: string, citySlug: string): CitySummary | unde
     stateSlug: t.stateSlug,
     count: trucks.length,
     topRating: trucks.reduce((m, x) => Math.max(m, x.rating), 0),
+    coverPhoto: pickCityCover(trucks),
   };
 }
 
@@ -172,10 +201,13 @@ export function getCuisineBySlug(slug: string): CuisineSummary | undefined {
 // Client components should import from '@/lib/truck-helpers' directly to
 // avoid pulling trucks.json into the client bundle.
 export { hasDetailPage, googleMapsUrl } from './truck-helpers';
-import { hasDetailPage } from './truck-helpers';
 
+// Every truck gets a static detail page. The page itself renders a "limited
+// info" callout for sparse listings (see hasDetailPage in truck-helpers.ts).
+// Historically this filtered to rich-data trucks only as a build-size
+// optimization; we now generate the full set so every card click works.
 export function getTrucksWithDetailPages(): Truck[] {
-  return TRUCKS.filter(hasDetailPage);
+  return TRUCKS;
 }
 
 export { slugify, cuisineSlug };
