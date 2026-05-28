@@ -199,7 +199,7 @@ export default function HomePage() {
               </div>
               <div className="flex flex-col gap-3">
                 <Link href="/list-your-truck" className="btn-primary text-base">
-                  List your truck — free
+                  Get listed — free
                 </Link>
                 <Link
                   href="/list-your-truck#featured"

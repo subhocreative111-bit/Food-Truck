@@ -26,7 +26,7 @@ export default function UserMenu() {
         className="hidden items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm font-bold text-ink/80 transition-colors hover:border-ink hover:text-ink md:inline-flex"
       >
         <User className="h-3.5 w-3.5" />
-        Owner sign in
+        My Truck
       </Link>
     );
   }
@@ -68,7 +68,7 @@ export default function UserMenu() {
             className="flex items-center gap-3 px-4 py-3 text-sm font-bold text-ink/85 hover:bg-cream-50 hover:text-ember"
           >
             <LayoutDashboard className="h-4 w-4" />
-            Owner dashboard
+            My dashboard
           </Link>
           <button
             onClick={signOut}

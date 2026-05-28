@@ -11,9 +11,9 @@ const FOOTER_COLS = [
     ],
   },
   {
-    title: 'For owners',
+    title: 'Run a truck?',
     links: [
-      { href: '/list-your-truck', label: 'List your truck' },
+      { href: '/list-your-truck', label: 'Get listed' },
       { href: '/list-your-truck#featured', label: 'Featured listing' },
       { href: '/contact', label: 'Claim a listing' },
     ],

@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { href: '/states/california', label: 'States' },
   { href: '/cuisines', label: 'Cuisines' },
   { href: '/search', label: 'Search' },
-  { href: '/list-your-truck', label: 'For Owners' },
+  { href: '/list-your-truck', label: 'Run a Truck?' },
   { href: '/about', label: 'About' },
 ];
 
@@ -78,7 +78,7 @@ export default function SiteNav() {
           </Link>
           <UserMenu />
           <Link href="/list-your-truck" className="btn-primary whitespace-nowrap px-4 py-2 text-sm">
-            List your truck
+            Get listed
           </Link>
         </div>
 
@@ -107,7 +107,7 @@ export default function SiteNav() {
             ))}
           </ul>
           <Link href="/list-your-truck" onClick={() => setOpen(false)} className="btn-primary mt-5 w-full">
-            List your truck
+            Get listed
           </Link>
         </div>
       )}

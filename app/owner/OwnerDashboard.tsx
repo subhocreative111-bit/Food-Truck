@@ -101,7 +101,7 @@ export default function OwnerDashboard() {
           <div className="mt-12 rounded-3xl border border-dashed border-ink/15 bg-cream-50 p-12 text-center">
             <h2 className="text-2xl font-black tracking-tight">No claims yet.</h2>
             <p className="mx-auto mt-3 max-w-md text-sm text-ink/65">
-              Submit a claim application from the <Link href="/list-your-truck/" className="font-bold text-ember underline-offset-4 hover:underline">List your truck</Link> page.
+              Submit a claim application from the <Link href="/list-your-truck/" className="font-bold text-ember underline-offset-4 hover:underline">Get listed</Link> page.
               We&apos;ll review within two business days.
             </p>
             <Link href="/list-your-truck/" className="btn-primary mt-6 text-sm">
