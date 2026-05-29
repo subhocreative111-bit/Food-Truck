@@ -4,7 +4,8 @@ import { getAllCuisines } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: 'Search food trucks',
-  description: 'Search by truck name, city, state or cuisine.',
+  description:
+    'Search thousands of independent food trucks across all 50 states by name, city, state or cuisine — with ratings, opening hours and locations.',
   alternates: { canonical: '/search' },
 };
 

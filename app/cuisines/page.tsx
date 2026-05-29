@@ -4,7 +4,8 @@ import { getAllCuisines } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: 'All cuisines',
-  description: 'Browse food trucks by cuisine — tacos, BBQ, vegan, coffee and more.',
+  description:
+    'Browse food trucks by cuisine — tacos, BBQ, vegan, coffee, seafood, soul food and more — across all 50 states, with ratings, hours and locations.',
   alternates: { canonical: '/cuisines' },
 };
 

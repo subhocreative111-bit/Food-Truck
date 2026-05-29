@@ -25,14 +25,32 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const t = getTruckBySlug(params.slug);
   if (!t) return {};
   const cuisine = t.cuisine.join(' & ');
+
+  // Keep the <title> ≤ 60 chars. Build "{name} — {city} Food Truck" and, if the
+  // name is too long, truncate just the name. Use `absolute` so the global
+  // "· FoodTrucksNearMeUSA" suffix (22 chars) isn't appended — it blows past 60.
+  const tail = ` — ${t.city} Food Truck`;
+  const nameBudget = 60 - tail.length;
+  const trimmedName = t.name.length > nameBudget ? `${t.name.slice(0, nameBudget - 1).trimEnd()}…` : t.name;
+  const pageTitle = `${trimmedName}${tail}`;
+
+  // Meta description: aim for ~120–155 chars (Google's display window), then
+  // clamp to 158 at a word boundary so long names don't blow it past "too long".
+  const rawDescription =
+    t.description ??
+    `${t.name} — ${cuisine} food truck in ${t.city}, ${t.state}. See hours, location, contact info, photos and ratings on FoodTrucksNearMeUSA.`;
+  const description =
+    rawDescription.length > 158
+      ? `${rawDescription.slice(0, 157).replace(/\s+\S*$/, '')}…`
+      : rawDescription;
+
   return {
-    title: `${t.name} — ${cuisine} in ${t.city}, ${t.state}`,
-    description:
-      t.description ?? `${t.name} is a ${cuisine.toLowerCase()} food truck in ${t.city}, ${t.state}. Hours, address, photos and reviews.`,
+    title: { absolute: pageTitle },
+    description,
     alternates: { canonical: `/truck/${t.slug}` },
     openGraph: {
       title: t.name,
-      description: `${cuisine} · ${t.city}, ${t.state}`,
+      description: `${cuisine} food truck · ${t.city}, ${t.state}`,
       images: t.photos.slice(0, 1),
       url: `/truck/${t.slug}`,
       type: 'website',

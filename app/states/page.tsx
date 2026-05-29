@@ -4,7 +4,8 @@ import { getAllStates } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: 'All 50 States — Food Truck Directory',
-  description: 'Browse food trucks by US state. All 50 states covered.',
+  description:
+    'Browse independent food trucks by US state — all 50 covered. Explore cities, cuisines, ratings, hours and locations for thousands of mobile eateries.',
   alternates: { canonical: '/states' },
 };
 

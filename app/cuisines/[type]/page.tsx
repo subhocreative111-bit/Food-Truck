@@ -15,8 +15,8 @@ export function generateMetadata({ params }: { params: { type: string } }): Meta
   const c = getCuisineBySlug(params.type);
   if (!c) return {};
   return {
-    title: `${c.cuisine} Food Trucks — ${c.count} Across the US`,
-    description: `Browse ${c.count} ${c.cuisine.toLowerCase()} food trucks across all 50 states.`,
+    title: { absolute: `${c.cuisine} Food Trucks Across the US` },
+    description: `Browse ${c.count} ${c.cuisine} food trucks across all 50 states. Compare ratings and reviews, and check opening hours and locations near you.`,
     alternates: { canonical: `/cuisines/${c.slug}` },
     openGraph: {
       title: `${c.cuisine} Food Trucks`,

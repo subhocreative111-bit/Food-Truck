@@ -4,7 +4,8 @@ import ContactForm from '@/components/forms/ContactForm';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Get in touch with the FoodTrucksNearMeUSA team.',
+  description:
+    'Get in touch with the FoodTrucksNearMeUSA team — for press, partnerships, listing corrections, or to suggest a great food truck we should add to the map.',
   alternates: { canonical: '/contact' },
 };
 

@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Field notes',
-  description: 'Stories and guides from the road.',
+  description:
+    'Stories and guides from the road — city food-truck scenes, owner profiles, and regional dishes worth chasing across the United States. New notes coming soon.',
   alternates: { canonical: '/blog' },
 };
 

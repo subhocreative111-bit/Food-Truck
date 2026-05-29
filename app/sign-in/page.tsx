@@ -3,7 +3,8 @@ import AuthForm from '@/components/auth/AuthForm';
 
 export const metadata: Metadata = {
   title: 'Sign in',
-  description: 'Sign in to claim or edit your food truck listing.',
+  description:
+    'Sign in to claim your food truck listing, update your hours and location, add photos, and manage how your business appears on FoodTrucksNearMeUSA.',
   alternates: { canonical: '/sign-in' },
 };
 

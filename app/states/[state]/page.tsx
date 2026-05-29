@@ -16,8 +16,10 @@ export function generateMetadata({ params }: { params: { state: string } }): Met
   const s = getStateBySlug(params.state);
   if (!s) return {};
   return {
-    title: `Food Trucks in ${s.name} — Top ${s.count} Rated`,
-    description: `Discover ${s.count} hand-picked food trucks across ${s.name}. Filter by cuisine, rating, or city. Updated weekly.`,
+    // `absolute` keeps the title short — the global brand suffix would push
+    // "Food Trucks in {State} — Top {N} Rated" over 60 chars on long names.
+    title: { absolute: `Food Trucks in ${s.name} — ${s.count} Picks` },
+    description: `Discover ${s.count} hand-picked food trucks across ${s.name}. Browse by city or cuisine and compare ratings, hours and locations. Updated weekly.`,
     alternates: { canonical: `/states/${s.slug}` },
     openGraph: {
       title: `Food Trucks in ${s.name}`,
