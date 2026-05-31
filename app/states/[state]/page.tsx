@@ -5,6 +5,7 @@ import TruckListing from '@/components/TruckListing';
 import SectionHeader from '@/components/SectionHeader';
 import { LISTING_PAGE_CAP, getAllStates, getStateBySlug, getTrucksByState, rankTrucks } from '@/lib/data';
 import { US_STATES } from '@/lib/states';
+import { STATE_INTROS } from '@/lib/state-intros';
 
 export const dynamicParams = false;
 
@@ -71,6 +72,12 @@ export default function StatePage({ params }: { params: { state: string } }) {
               <Stat label="Rating" value={avgRating.toFixed(1)} />
             </dl>
           </div>
+
+          {STATE_INTROS[summary.slug] && (
+            <p className="mt-10 max-w-3xl text-lg leading-relaxed text-ink/75">
+              {STATE_INTROS[summary.slug]}
+            </p>
+          )}
 
           {summary.topCities.length > 0 && (
             <div className="mt-12">

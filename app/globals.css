@@ -74,6 +74,38 @@ body {
 
   .scroll-container::-webkit-scrollbar { display: none; }
   .scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Long-form blog post typography */
+  .prose-blog {
+    @apply text-lg leading-[1.75] text-ink/80;
+  }
+  .prose-blog .lede {
+    @apply text-2xl leading-relaxed text-ink font-semibold;
+  }
+  .prose-blog h2 {
+    @apply mt-14 mb-5 text-3xl font-black leading-tight tracking-tight text-ink md:text-4xl;
+  }
+  .prose-blog h3 {
+    @apply mt-10 mb-3 text-xl font-black leading-tight tracking-tight text-ink;
+  }
+  .prose-blog p {
+    @apply mt-5;
+  }
+  .prose-blog ul, .prose-blog ol {
+    @apply mt-5 space-y-3 pl-6;
+  }
+  .prose-blog ul { @apply list-disc; }
+  .prose-blog ol { @apply list-decimal; }
+  .prose-blog li::marker { @apply text-ember; }
+  .prose-blog strong {
+    @apply font-bold text-ink;
+  }
+  .prose-blog a {
+    @apply font-bold text-ember underline-offset-4 transition-colors hover:underline;
+  }
+  .prose-blog em {
+    @apply italic;
+  }
 }
 
 /* Sticky nav shrink — handled in JS via data attribute */

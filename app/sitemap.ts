@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getAllCities, getAllCuisines, getAllStates, getTrucksWithDetailPages } from '@/lib/data';
+import { BLOG_POSTS } from '@/lib/blog-posts';
 
 const BASE = 'https://foodtrucksnearmeusa.com';
 
@@ -15,6 +16,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${BASE}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${BASE}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${BASE}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${BASE}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ];
 
   const states: MetadataRoute.Sitemap = getAllStates().map((s) => ({
@@ -45,5 +48,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...states, ...cities, ...cuisines, ...trucks];
+  const posts: MetadataRoute.Sitemap = BLOG_POSTS.map((p) => ({
+    url: `${BASE}/blog/${p.slug}`,
+    lastModified: new Date(p.date),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...states, ...cities, ...cuisines, ...posts, ...trucks];
 }

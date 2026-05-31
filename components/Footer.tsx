@@ -24,6 +24,8 @@ const FOOTER_COLS = [
       { href: '/about', label: 'About' },
       { href: '/contact', label: 'Contact' },
       { href: '/blog', label: 'Field notes' },
+      { href: '/privacy', label: 'Privacy Policy' },
+      { href: '/terms', label: 'Terms of Service' },
     ],
   },
 ];
@@ -92,9 +94,9 @@ export default function Footer() {
       <div className="mx-auto mt-16 flex max-w-7xl flex-col gap-3 text-xs uppercase tracking-[0.18em] text-ink/40 sm:flex-row sm:items-center sm:justify-between">
         <p>Eat local, eat well.</p>
         <ul className="flex gap-6">
-          <li><Link href="/about">Privacy</Link></li>
-          <li><Link href="/about">Terms</Link></li>
-          <li><Link href="/contact">Press</Link></li>
+          <li><Link href="/privacy" className="hover:text-ember">Privacy</Link></li>
+          <li><Link href="/terms" className="hover:text-ember">Terms</Link></li>
+          <li><Link href="/contact" className="hover:text-ember">Press</Link></li>
         </ul>
       </div>
     </footer>
