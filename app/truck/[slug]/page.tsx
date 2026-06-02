@@ -83,11 +83,13 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
     telephone: t.phone,
     url: t.website,
     servesCuisine: t.cuisine,
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: t.rating,
-      reviewCount: t.reviewCount,
-    },
+    // NOTE: aggregateRating intentionally NOT emitted. Google's review-snippet
+    // policy requires the underlying reviews to live on the same page; ours
+    // are aggregated from Google Maps and not shown individually here. Google
+    // Search Console flagged this as a "Review snippets structured data
+    // issue" on 1 Jun 2026 — removing the field is the policy-safe fix. Once
+    // we host real owner-written reviews on each truck page we can put this
+    // back, including bestRating/worstRating fields per the spec.
     priceRange: t.priceLevel ? '$'.repeat(t.priceLevel) : undefined,
   };
 
