@@ -36,6 +36,10 @@ import { birriaTacoTrail } from './blog/birria-taco-trail';
 import { howToStartAFoodTruck } from './blog/how-to-start-a-food-truck';
 import { koreanFoodTrucksAmerica } from './blog/korean-food-trucks-america';
 import { newEnglandLobsterTrucks } from './blog/new-england-lobster-trucks';
+// June 8 — capturing legacy URLs Google already indexed (GSC export 8 Jun 2026)
+import { foodTruckMenuIdeas } from './blog/food-truck-menu-ideas';
+import { bestFoodTruckFestivals } from './blog/best-food-truck-festivals';
+import { foodTruckIndustryTrends } from './blog/food-truck-industry-trends';
 
 export const BLOG_POSTS: BlogPost[] = [
   // Original 5
@@ -53,6 +57,10 @@ export const BLOG_POSTS: BlogPost[] = [
   howToStartAFoodTruck,
   koreanFoodTrucksAmerica,
   newEnglandLobsterTrucks,
+  // June 8 — slugs match legacy URLs Google already has indexed
+  foodTruckMenuIdeas,
+  bestFoodTruckFestivals,
+  foodTruckIndustryTrends,
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
