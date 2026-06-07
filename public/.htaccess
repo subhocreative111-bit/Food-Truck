@@ -14,6 +14,14 @@ RewriteRule ^(.*)$ https://foodtrucksnearmeusa.com/$1 [R=301,L]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
+# Legacy URL preservation: the previous static HTML site lived at
+# /pages/food-trucks-in-<state>.html. Google has these indexed and is still
+# sending traffic to them. 301-redirect to the equivalent Next.js state page
+# so we inherit the existing impressions, age and link equity instead of
+# letting users land on a 404. (Reported via GSC recommendation on 4 Jun 2026
+# for the Maryland page, with a 764% impressions spike on the dead URL.)
+RewriteRule ^pages/food-trucks-in-([a-z0-9-]+)\.html$ /states/$1/ [R=301,L,NC]
+
 # Strip trailing slashes on file requests (Next exports trailing slashes on routes)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
