@@ -28,13 +28,31 @@ import { howToFindFoodTrucks } from './blog/how-to-find-food-trucks';
 import { texasBbqGuide } from './blog/texas-bbq-guide';
 import { cuisineGuide } from './blog/cuisine-guide';
 import { whyFoodTrucksMatter } from './blog/why-food-trucks-matter';
+import { halalCartsNyc } from './blog/halal-carts-nyc';
+import { houstonFoodTruckGuide } from './blog/houston-food-truck-guide';
+import { portlandFoodPods } from './blog/portland-food-pods';
+import { laFoodTruckOrigins } from './blog/la-food-truck-origins';
+import { birriaTacoTrail } from './blog/birria-taco-trail';
+import { howToStartAFoodTruck } from './blog/how-to-start-a-food-truck';
+import { koreanFoodTrucksAmerica } from './blog/korean-food-trucks-america';
+import { newEnglandLobsterTrucks } from './blog/new-england-lobster-trucks';
 
 export const BLOG_POSTS: BlogPost[] = [
+  // Original 5
   nycFoodTrucks,
   howToFindFoodTrucks,
   texasBbqGuide,
   cuisineGuide,
   whyFoodTrucksMatter,
+  // June 4 sprint — 8 new posts
+  halalCartsNyc,
+  houstonFoodTruckGuide,
+  portlandFoodPods,
+  laFoodTruckOrigins,
+  birriaTacoTrail,
+  howToStartAFoodTruck,
+  koreanFoodTrucksAmerica,
+  newEnglandLobsterTrucks,
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
