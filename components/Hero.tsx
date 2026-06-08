@@ -1,6 +1,8 @@
-'use client';
-
-import { motion } from 'framer-motion';
+// Hero used to be a client component for framer-motion fade-in animations.
+// Those animations were holding LCP elements at opacity:0 until React
+// hydrated (3-5 s on throttled mobile), which tanked the Lighthouse mobile
+// score. Removing framer-motion lets Hero render server-side, ships ~30 KB
+// less JS to the client, and removes the LCP block.
 import { ArrowDown } from 'lucide-react';
 import SearchBar from './SearchBar';
 
@@ -42,16 +44,11 @@ export default function Hero({ cities, cuisines, popularCuisines, totalTrucks, t
             <strong className="font-bold text-ink">{totalStates}</strong> states.
           </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-            className="mt-10"
-          >
+          <div className="mt-10">
             <SearchBar
               cities={cities}
               cuisines={cuisines}
-              placeholder="Try “Austin tacos” or “Brooklyn BBQ”"
+              placeholder="Try &ldquo;Austin tacos&rdquo; or &ldquo;Brooklyn BBQ&rdquo;"
             />
             <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-ink/50">
               <span className="font-bold uppercase tracking-wider">Popular:</span>
@@ -65,7 +62,7 @@ export default function Hero({ cities, cuisines, popularCuisines, totalTrucks, t
                 </a>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Right: stacked stats + image */}
@@ -104,30 +101,22 @@ export default function Hero({ cities, cuisines, popularCuisines, totalTrucks, t
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
+          <div
             className="absolute -left-6 top-10 hidden rotate-[-6deg] rounded-2xl border border-ink/10 bg-cream px-4 py-3 shadow-[0_20px_40px_-20px_rgba(26,22,20,0.3)] md:flex"
           >
             <div className="flex items-center gap-3">
               <span className="featured-pill">Featured</span>
               <span className="text-sm font-bold">Open now near you</span>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="mx-auto mt-20 hidden max-w-7xl items-center justify-between text-xs font-black uppercase tracking-[0.22em] text-ink/45 md:flex"
-      >
+      <div className="mx-auto mt-20 hidden max-w-7xl items-center justify-between text-xs font-black uppercase tracking-[0.22em] text-ink/45 md:flex">
         <span>Scroll to explore</span>
         <ArrowDown className="h-4 w-4 animate-bounce" />
-        <span>Eat well · est. 2026</span>
-      </motion.div>
+        <span>Eat well &middot; est. 2026</span>
+      </div>
     </section>
   );
 }
