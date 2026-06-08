@@ -9,7 +9,10 @@ import ConsentBanner from '@/components/analytics/ConsentBanner';
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '600', '700', '900'],
+  // Trimmed from [400, 600, 700, 900] to [400, 700, 900] to save ~150 KB on
+  // the initial font payload. 600 was barely used; 700 covers the bold cases
+  // that previously used 600.
+  weight: ['400', '700', '900'],
   display: 'swap',
   variable: '--font-poppins',
 });
@@ -43,9 +46,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={poppins.variable}>
       <head>
-        {/* Saves 200-400ms on the first Unsplash image — the LCP hero photo */}
+        {/* Preconnect to the photo hosts so the TLS handshake happens before
+            the image URLs are discovered. The actual LCP-image preload lives
+            in app/page.tsx (homepage only) so we don't waste bytes
+            preloading the hero on truck/state/cuisine pages. */}
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://pub-1fc3abcd270c4b80ac998884b38e3fc3.r2.dev" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pub-1fc3abcd270c4b80ac998884b38e3fc3.r2.dev" />
       </head>
       <body className="min-h-screen bg-cream font-sans text-ink antialiased">
         <SiteNav />

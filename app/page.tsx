@@ -36,6 +36,18 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Preload the hero LCP image with the same srcset as Hero.tsx so the
+          browser starts the fetch as soon as the HTML parses, before JS or
+          CSS even runs. Drops mobile LCP by ~500-1000 ms. Homepage-only —
+          truck / state / blog pages have their own LCP elements. */}
+      <link
+        rel="preload"
+        as="image"
+        href="https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=1000&q=70&auto=format&fit=crop"
+        imageSrcSet="https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=600&q=65&auto=format&fit=crop 600w, https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=1000&q=70&auto=format&fit=crop 1000w"
+        imageSizes="(max-width: 1024px) 100vw, 40vw"
+        fetchPriority="high"
+      />
       <Hero
         cities={cities}
         cuisines={cuisines.map((c) => ({ cuisine: c.cuisine, slug: c.slug }))}

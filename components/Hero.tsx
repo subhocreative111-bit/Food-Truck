@@ -17,22 +17,16 @@ export default function Hero({ cities, cuisines, popularCuisines, totalTrucks, t
     <section className="grain relative isolate overflow-hidden px-6 pb-20 pt-12 md:px-10 md:pb-32 md:pt-20">
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.35fr_1fr] lg:items-end">
         <div>
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.22em] text-ember"
-          >
+          {/* These three elements (eyebrow, h1, description) form the above-the-fold
+              content that's likely the LCP target on mobile. Plain HTML rather
+              than motion components so they paint immediately rather than being
+              held at opacity:0 until React hydrates the framer-motion animation. */}
+          <div className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.22em] text-ember">
             <span className="inline-block h-px w-10 bg-ember" />
-            America's curated mobile-eats directory
-          </motion.div>
+            America&apos;s curated mobile-eats directory
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-            className="mt-6 break-words text-[clamp(3rem,12vw,8.5rem)] font-black leading-[0.92] tracking-tightest text-ink"
-          >
+          <h1 className="mt-6 break-words text-[clamp(3rem,12vw,8.5rem)] font-black leading-[0.92] tracking-tightest text-ink">
             Eat where the
             <br />
             <span className="relative inline-block">
@@ -40,18 +34,13 @@ export default function Hero({ cities, cuisines, popularCuisines, totalTrucks, t
               <span className="absolute inset-x-0 bottom-2 z-0 h-3 bg-saffron/70 md:h-5" aria-hidden />
             </span>{' '}
             do.
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-ink/70 md:text-xl"
-          >
+          <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink/70 md:text-xl">
             A hand-curated directory of <strong className="font-bold text-ink">{totalTrucks.toLocaleString()}</strong> independent
             food trucks, taco stands, and roadside eateries across all{' '}
             <strong className="font-bold text-ink">{totalStates}</strong> states.
-          </motion.p>
+          </p>
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -81,22 +70,22 @@ export default function Hero({ cities, cuisines, popularCuisines, totalTrucks, t
 
         {/* Right: stacked stats + image */}
         <div className="relative">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-            className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-ink/10 bg-cream-100"
-          >
+          <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-ink/10 bg-cream-100">
+            {/* Responsive srcset so mobile gets a 600px image (~50 KB) instead
+                of the desktop 1000px image (~150 KB). Saves ~100 KB on the
+                LCP fetch over throttled mobile networks. fetchPriority="high"
+                tells the browser to prioritise this download over other assets. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=1000&q=75&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=1000&q=70&auto=format&fit=crop"
+              srcSet="https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=600&q=65&auto=format&fit=crop 600w, https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=1000&q=70&auto=format&fit=crop 1000w"
+              sizes="(max-width: 1024px) 100vw, 40vw"
               alt="Customers gathered at a food truck at sunset"
               fetchPriority="high"
               decoding="async"
-              width={800}
-              height={1000}
+              width={1000}
+              height={1250}
               className="absolute inset-0 h-full w-full object-cover"
-              style={{ animation: 'rise 2s ease-out both' }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
@@ -113,7 +102,7 @@ export default function Hero({ cities, cuisines, popularCuisines, totalTrucks, t
                 <div className="mt-1 text-xs font-black uppercase tracking-[0.18em] text-cream/85">States</div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
