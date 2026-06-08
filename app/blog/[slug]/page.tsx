@@ -53,11 +53,26 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     mainEntityOfPage: `https://foodtrucksnearmeusa.com/blog/${post.slug}`,
   };
 
+  // BreadcrumbList — Home › Field notes › Post title
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://foodtrucksnearmeusa.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Field notes', item: 'https://foodtrucksnearmeusa.com/blog/' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://foodtrucksnearmeusa.com/blog/${post.slug}/` },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       <article className="px-6 pb-20 pt-12 md:px-10 md:pt-20">

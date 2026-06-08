@@ -15,6 +15,7 @@ const { execSync } = require('node:child_process');
 const steps = [
   ['Generate trucks.json',     'npm run build:data'],
   ['Generate search index',    'npm run build:search'],
+  ['Generate image sitemap',   'node scripts/build-image-sitemap.mjs'],
   ['Next.js static export',    'npx next build'],
 ];
 

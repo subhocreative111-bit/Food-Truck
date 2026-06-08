@@ -40,8 +40,20 @@ export default function CityPage({ params }: { params: { state: string; city: st
   for (const t of allTrucks) for (const c of t.cuisine) cuisineMap.set(c, (cuisineMap.get(c) ?? 0) + 1);
   const cuisineList = [...cuisineMap.entries()].map(([cuisine, count]) => ({ cuisine, count }));
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://foodtrucksnearmeusa.com/' },
+      { '@type': 'ListItem', position: 2, name: 'States', item: 'https://foodtrucksnearmeusa.com/states/' },
+      { '@type': 'ListItem', position: 3, name: state.name, item: `https://foodtrucksnearmeusa.com/states/${state.slug}/` },
+      { '@type': 'ListItem', position: 4, name: city.name, item: `https://foodtrucksnearmeusa.com/states/${state.slug}/${city.slug}/` },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <section className="grain relative isolate overflow-hidden px-6 pb-12 pt-12 md:px-10 md:pb-16 md:pt-20">
         <div className="mx-auto max-w-7xl">
           <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-ink/45">

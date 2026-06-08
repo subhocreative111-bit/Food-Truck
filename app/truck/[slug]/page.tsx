@@ -67,6 +67,20 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
   const mapsHref = googleMapsUrl(t);
   const hasPhotos = t.photos && t.photos.length > 0;
 
+  // BreadcrumbList JSON-LD — Google may render this as the breadcrumb path
+  // in search results (Home › State › City › Truck) instead of the raw URL.
+  // Higher CTR + clearer site hierarchy signal for crawlers.
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://foodtrucksnearmeusa.com/' },
+      { '@type': 'ListItem', position: 2, name: t.state, item: `https://foodtrucksnearmeusa.com/states/${t.stateSlug}/` },
+      { '@type': 'ListItem', position: 3, name: t.city, item: `https://foodtrucksnearmeusa.com/states/${t.stateSlug}/${t.citySlug}/` },
+      { '@type': 'ListItem', position: 4, name: t.name, item: `https://foodtrucksnearmeusa.com/truck/${t.slug}/` },
+    ],
+  };
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FoodEstablishment',
@@ -100,6 +114,7 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <OverrideOverlay truckSlug={t.slug} />
 
       <section className="px-6 pb-10 pt-8 md:px-10 md:pt-12">

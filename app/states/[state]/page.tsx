@@ -43,8 +43,19 @@ export default function StatePage({ params }: { params: { state: string } }) {
   const avgRating =
     allTrucks.length > 0 ? allTrucks.reduce((s, t) => s + t.rating, 0) / allTrucks.length : 0;
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://foodtrucksnearmeusa.com/' },
+      { '@type': 'ListItem', position: 2, name: 'States', item: 'https://foodtrucksnearmeusa.com/states/' },
+      { '@type': 'ListItem', position: 3, name: summary.name, item: `https://foodtrucksnearmeusa.com/states/${summary.slug}/` },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <section className="grain relative isolate overflow-hidden px-6 pb-12 pt-12 md:px-10 md:pb-16 md:pt-20">
         <div className="mx-auto max-w-7xl">
           <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-ink/45">

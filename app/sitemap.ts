@@ -41,6 +41,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  // Truck image URLs are emitted via a separate sitemap-images.xml generated
+  // at build time by scripts/build-image-sitemap.mjs. Next 14.2's
+  // MetadataRoute.Sitemap silently drops the `images` field, which is fixed
+  // in 14.3+ but upgrading mid-flight isn't worth the risk right now.
   const trucks: MetadataRoute.Sitemap = getTrucksWithDetailPages().map((t) => ({
     url: `${BASE}/truck/${t.slug}`,
     lastModified: now,

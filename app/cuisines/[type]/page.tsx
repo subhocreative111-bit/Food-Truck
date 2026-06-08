@@ -35,8 +35,19 @@ export default function CuisinePage({ params }: { params: { type: string } }) {
   const truncated = allTrucks.length > trucks.length;
   const cuisineList = [{ cuisine: summary.cuisine, count: summary.count }];
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://foodtrucksnearmeusa.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Cuisines', item: 'https://foodtrucksnearmeusa.com/cuisines/' },
+      { '@type': 'ListItem', position: 3, name: summary.cuisine, item: `https://foodtrucksnearmeusa.com/cuisines/${summary.slug}/` },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <section className="grain relative isolate overflow-hidden px-6 pb-12 pt-12 md:px-10 md:pb-16 md:pt-20">
         <div className="mx-auto max-w-7xl">
           <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-ink/45">
