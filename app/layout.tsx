@@ -28,6 +28,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
   },
   twitter: { card: 'summary_large_image' },
+  // Site-verification meta tags. Next renders these in <head> as
+  // <meta name="<provider>-site-verification" content="...">
+  verification: {
+    other: {
+      'ahrefs-site-verification': '85e62f3fdcd9c690f4a7b28f4b1ec45e5b9344939e4249c80630f9a02850a862',
+    },
+  },
   // Icons are auto-discovered from app/icon.svg + app/apple-icon.png — no
   // explicit `icons` override here (an override would suppress auto-detection).
 };
