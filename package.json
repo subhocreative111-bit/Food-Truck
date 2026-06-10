@@ -14,7 +14,8 @@
     "vercel-build": "node scripts/run-build.js",
     "start": "node server.js",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "status": "node scripts/status.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
