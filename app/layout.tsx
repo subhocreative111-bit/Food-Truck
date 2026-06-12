@@ -29,6 +29,17 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'FoodTrucksNearMeUSA',
     locale: 'en_US',
+    // Default share image (Ahrefs flagged og:image missing). Same Unsplash
+    // photo as the homepage hero, cropped to the 1200x630 OG canvas. Pages
+    // that define their own openGraph.images (truck pages) still win.
+    images: [
+      {
+        url: 'https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=1200&h=630&q=70&auto=format&fit=crop',
+        width: 1200,
+        height: 630,
+        alt: 'Customers gathered at a food truck — FoodTrucksNearMeUSA',
+      },
+    ],
   },
   twitter: { card: 'summary_large_image' },
   // Site-verification meta tags. Next renders these in <head> as
