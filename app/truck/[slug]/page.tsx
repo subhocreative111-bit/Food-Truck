@@ -220,6 +220,19 @@ export default function TruckPage({ params }: { params: { slug: string } }) {
             <aside className="lg:sticky lg:top-24 lg:self-start">
               <BusinessHours hours={t.hours} />
 
+              <div className="mt-5 rounded-3xl border border-saffron/40 bg-saffron/10 p-6">
+                <h3 className="text-sm font-black uppercase tracking-[0.18em]">Planning an event?</h3>
+                <p className="mt-3 text-sm text-ink/70">
+                  Get a free catering quote for {t.name} — weddings, office lunches, parties.
+                </p>
+                <Link
+                  href={`/catering/?truck=${encodeURIComponent(t.name)}`}
+                  className="btn-primary mt-5 w-full text-sm"
+                >
+                  Book for catering
+                </Link>
+              </div>
+
               <div className="mt-5 rounded-3xl border border-ink/10 bg-cream-50 p-6">
                 <div className="flex items-center gap-3">
                   <ShieldCheck className="h-5 w-5 text-ember" />

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getAllCities, getAllCuisines, getAllStates, getTrucksWithDetailPages } from '@/lib/data';
 import { BLOG_POSTS } from '@/lib/blog-posts';
+import { CATERING_CITIES } from '@/lib/catering';
 
 const BASE = 'https://foodtrucksnearmeusa.com';
 
@@ -16,6 +17,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/for-trucks`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/for-trucks/faq`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/for-trucks/guide`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/catering`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    ...CATERING_CITIES.map((c) => ({
+      url: `${BASE}/catering/${c.citySlug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
     { url: `${BASE}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${BASE}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${BASE}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.5 },

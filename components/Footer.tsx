@@ -8,6 +8,7 @@ const FOOTER_COLS = [
       { href: '/states/california', label: 'Browse states' },
       { href: '/cuisines', label: 'Browse cuisines' },
       { href: '/search', label: 'Search trucks' },
+      { href: '/catering', label: 'Book catering' },
     ],
   },
   {
