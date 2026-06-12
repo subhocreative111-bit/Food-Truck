@@ -4,7 +4,7 @@ This is the operator-facing notes file. Read this FIRST before doing any work
 on this repo. It will save you from re-grepping the codebase to discover
 things that are already decided.
 
-Last updated: 2026-06-10 by Ve.
+Last updated: 2026-06-12 (Supabase incident + catering funnel + 6 city guides).
 
 ---
 
@@ -163,6 +163,22 @@ cause of a 5-day Google indexing stall).
   Hostinger reads `NEXT_PUBLIC_*` vars only at build time via its env panel.
 - Don't run `npm run dev` and expect a clean restart — `.next/` cache often
   needs `rm -rf .next` first if a prior build cluttered it.
+- **Supabase free tier auto-pauses after ~7 days without API activity**, and
+  while paused EVERY form on the live site silently fails (catering, contact,
+  claims, sign-in). Discovered 2026-06-12: project was paused AND the database
+  was empty — the schema had never been applied via migration history. Fixed
+  by restoring the project and applying all 5 files in `supabase/migrations/`
+  via MCP (now recorded in migration history), recreating the `truck-photos`
+  bucket, and adding `.github/workflows/supabase-keepalive.yml` (daily
+  authenticated REST ping). If forms break again, FIRST check project status
+  with the Supabase MCP (`get_project`, status INACTIVE = paused).
+- **Resend is in sandbox mode** — notification emails can only deliver to
+  `subho.creative111@gmail.com` (the Resend account owner). The
+  `notify-submission` edge function's `ADMIN_EMAIL` secret points at
+  `hello@foodtrucksnearmeusa.com`, which Resend 403s. Fix: either verify the
+  domain at resend.com/domains (Cloudflare DNS records) + set `NOTIFY_FROM`,
+  or set `ADMIN_EMAIL=subho.creative111@gmail.com` in the function secrets.
+  Leads are never lost either way — they land in `public.submissions`.
 
 ## Commit message style
 

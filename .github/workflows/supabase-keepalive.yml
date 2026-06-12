@@ -1,0 +1,29 @@
+# Prevents the Supabase free-tier project from auto-pausing.
+#
+# Free projects are paused after ~7 days without API activity. When that
+# happened (discovered 2026-06-12) every form on the live site silently
+# failed: catering quotes, contact, claims, sign-in. One authenticated
+# PostgREST request per day counts as activity and keeps it awake.
+#
+# The anon key below is NOT a secret — it ships in the client JS bundle on
+# every page of the site. Authorization is enforced by RLS, not the key.
+
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: '13 5 * * *'  # daily, 05:13 UTC
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        env:
+          SUPABASE_URL: https://tqgaeqdcilvtqhslonyk.supabase.co
+          SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxZ2FlcWRjaWx2dHFoc2xvbnlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3NjI5OTUsImV4cCI6MjA5NTMzODk5NX0.KOO9vVOl3u1dLPHApT23Z_k8tU7L-O2PdVot72syXE0
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}'             "$SUPABASE_URL/rest/v1/truck_overrides?select=truck_slug&limit=1"             -H "apikey: $SUPABASE_ANON_KEY"             -H "Authorization: Bearer $SUPABASE_ANON_KEY")
+          echo "Supabase responded HTTP $code"
+          test "$code" = "200"
