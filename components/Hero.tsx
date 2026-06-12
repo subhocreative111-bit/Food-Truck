@@ -101,14 +101,6 @@ export default function Hero({ cities, cuisines, popularCuisines, totalTrucks, t
             </div>
           </div>
 
-          <div
-            className="absolute -left-6 top-10 hidden rotate-[-6deg] rounded-2xl border border-ink/10 bg-cream px-4 py-3 shadow-[0_20px_40px_-20px_rgba(26,22,20,0.3)] md:flex"
-          >
-            <div className="flex items-center gap-3">
-              <span className="featured-pill">Featured</span>
-              <span className="text-sm font-bold">Open now near you</span>
-            </div>
-          </div>
         </div>
       </div>
 
