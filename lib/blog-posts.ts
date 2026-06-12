@@ -40,6 +40,13 @@ import { newEnglandLobsterTrucks } from './blog/new-england-lobster-trucks';
 import { foodTruckMenuIdeas } from './blog/food-truck-menu-ideas';
 import { bestFoodTruckFestivals } from './blog/best-food-truck-festivals';
 import { foodTruckIndustryTrends } from './blog/food-truck-industry-trends';
+// June 11-12 sprint — city guides
+import { austinFoodTruckGuide } from './blog/austin-food-truck-guide';
+import { chicagoFoodTruckGuide } from './blog/chicago-food-truck-guide';
+import { nashvilleFoodTruckGuide } from './blog/nashville-food-truck-guide';
+import { miamiFoodTruckGuide } from './blog/miami-food-truck-guide';
+import { atlantaFoodTruckGuide } from './blog/atlanta-food-truck-guide';
+import { orlandoFoodTruckGuide } from './blog/orlando-food-truck-guide';
 
 export const BLOG_POSTS: BlogPost[] = [
   // Original 5
@@ -61,6 +68,13 @@ export const BLOG_POSTS: BlogPost[] = [
   foodTruckMenuIdeas,
   bestFoodTruckFestivals,
   foodTruckIndustryTrends,
+  // June 11-12 — city guides
+  austinFoodTruckGuide,
+  chicagoFoodTruckGuide,
+  nashvilleFoodTruckGuide,
+  miamiFoodTruckGuide,
+  atlantaFoodTruckGuide,
+  orlandoFoodTruckGuide,
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
