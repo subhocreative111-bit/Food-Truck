@@ -54,6 +54,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://pub-1fc3abcd270c4b80ac998884b38e3fc3.r2.dev" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://pub-1fc3abcd270c4b80ac998884b38e3fc3.r2.dev" />
+        {/* Ahrefs Web Analytics. Cookieless and PII-free, so it loads
+            unconditionally — GA4/AdSense stay consent-gated in <Analytics />.
+            Plain server-rendered tag (not next/script) so Ahrefs' "Verify
+            installation" crawler finds it in the static HTML. */}
+        <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="DFMO1DcXSx3kPtzup9qGPg"
+          async
+        />
       </head>
       <body className="min-h-screen bg-cream font-sans text-ink antialiased">
         <SiteNav />
