@@ -117,16 +117,12 @@ function SearchInner({ allCuisines: _allCuisines }: Props) {
   useEffect(() => setVisibleCount(PAGE_SIZE), [q]);
   const visible = filtered.slice(0, visibleCount);
 
+  // Heading, intro, and browse links are server-rendered in page.tsx so they
+  // exist in the static HTML; this component is only the search box + results.
   return (
-    <section className="px-6 pb-20 pt-12 md:px-10 md:pt-16">
+    <section className="px-6 pb-20 pt-8 md:px-10 md:pt-10">
       <div className="mx-auto max-w-7xl">
-        <span className="text-xs font-black uppercase tracking-[0.22em] text-ember">— Search</span>
-        <h1 className="mt-4 break-words text-[clamp(2.75rem,11vw,7.5rem)] font-black leading-[0.92] tracking-tightest">Find a truck.</h1>
-        <p className="mt-4 max-w-2xl text-base text-ink/55 md:text-lg">
-          Search across <span className="tabular font-black text-ink">{(index?.length ?? 0).toLocaleString()}</span> trucks in all 50 states.
-        </p>
-
-        <div className="mt-10 flex items-center gap-3 rounded-full border border-ink/15 bg-cream px-6 py-4 focus-within:border-ember">
+        <div className="flex items-center gap-3 rounded-full border border-ink/15 bg-cream px-6 py-4 focus-within:border-ember">
           <SearchIcon className="h-5 w-5 text-ink/50" />
           <input
             value={q}
