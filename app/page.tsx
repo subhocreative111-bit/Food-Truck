@@ -36,16 +36,18 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Preload the hero LCP image with the same srcset as Hero.tsx so the
-          browser starts the fetch as soon as the HTML parses, before JS or
-          CSS even runs. Drops mobile LCP by ~500-1000 ms. Homepage-only —
-          truck / state / blog pages have their own LCP elements. */}
+      {/* Preload the hero LCP image (the AVIF set served by <picture> in
+          Hero.tsx). type + imageSrcSet + imageSizes MUST match the <source>
+          there byte-for-byte so the browser dedupes them into one fetch —
+          a mismatch makes the preload a wasted second download. Starts the
+          fetch at HTML parse. Homepage-only — truck / state / blog pages
+          have their own LCP elements. */}
       <link
         rel="preload"
         as="image"
-        href="https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=1000&q=70&auto=format&fit=crop"
-        imageSrcSet="https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=600&q=65&auto=format&fit=crop 600w, https://images.unsplash.com/photo-1683508700255-f9b09a11f687?w=1000&q=70&auto=format&fit=crop 1000w"
-        imageSizes="(max-width: 1024px) 100vw, 40vw"
+        type="image/avif"
+        imageSrcSet="/hero/hero-640.avif 640w, /hero/hero-960.avif 960w, /hero/hero-1280.avif 1280w"
+        imageSizes="(max-width: 1024px) calc(100vw - 48px), 40vw"
         fetchPriority="high"
       />
       <Hero

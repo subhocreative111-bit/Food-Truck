@@ -35,3 +35,4 @@ Thumbs.db
 
 # Claude Code per-machine tool permissions (track .claude/launch.json only)
 .claude/settings.local.json
+scripts/.hero-master.jpg
