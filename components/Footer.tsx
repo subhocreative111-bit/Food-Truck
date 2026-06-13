@@ -60,7 +60,7 @@ export default function Footer() {
 
         {FOOTER_COLS.map((col) => (
           <div key={col.title}>
-            <h4 className="text-xs font-black uppercase tracking-[0.18em] text-ink/45">{col.title}</h4>
+            <h2 className="text-xs font-black uppercase tracking-[0.18em] text-ink/45">{col.title}</h2>
             <ul className="mt-5 space-y-3">
               {col.links.map((l) => (
                 <li key={l.href}>
@@ -76,7 +76,7 @@ export default function Footer() {
 
       <div className="mx-auto mt-16 max-w-7xl">
         <div className="editorial-rule" />
-        <h4 className="mt-8 text-xs font-black uppercase tracking-[0.18em] text-ink/45">All 50 states</h4>
+        <h2 className="mt-8 text-xs font-black uppercase tracking-[0.18em] text-ink/45">All 50 states</h2>
         <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {US_STATES.map((s) => (
             <li key={s.slug}>
