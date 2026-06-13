@@ -172,13 +172,19 @@ cause of a 5-day Google indexing stall).
   bucket, and adding `.github/workflows/supabase-keepalive.yml` (daily
   authenticated REST ping). If forms break again, FIRST check project status
   with the Supabase MCP (`get_project`, status INACTIVE = paused).
-- **Resend is in sandbox mode** — notification emails can only deliver to
-  `subho.creative111@gmail.com` (the Resend account owner). The
-  `notify-submission` edge function's `ADMIN_EMAIL` secret points at
-  `hello@foodtrucksnearmeusa.com`, which Resend 403s. Fix: either verify the
-  domain at resend.com/domains (Cloudflare DNS records) + set `NOTIFY_FROM`,
-  or set `ADMIN_EMAIL=subho.creative111@gmail.com` in the function secrets.
-  Leads are never lost either way — they land in `public.submissions`.
+- **Resend is in sandbox mode** — it only delivers to
+  `subho.creative111@gmail.com` (the account owner) and 403s anything else.
+  A stale `ADMIN_EMAIL` secret (`hello@foodtrucksnearmeusa.com`) was 403ing
+  every lead notification. FIXED 2026-06-13 in `notify-submission` v4: the
+  function now ignores `ADMIN_EMAIL`/`NOTIFY_FROM` and forces the owner Gmail
+  + `onboarding@resend.dev` sender while sandboxed, so a bad secret can't drop
+  leads. Verified end-to-end (insert → trigger → 200 from Resend). Leads also
+  always persist in `public.submissions` regardless of email.
+  **To send from your own domain / to `hello@`:** verify the domain at
+  resend.com/domains (Cloudflare DNS), then set the function secret
+  `NOTIFY_DOMAIN_VERIFIED=1` (and optionally `ADMIN_EMAIL` + `NOTIFY_FROM`).
+  The repo source `supabase/functions/notify-submission/index.ts` is now in
+  sync with what's deployed (it had drifted — repo was older than deployed).
 
 ## Commit message style
 
